@@ -1,10 +1,9 @@
-import pytest
 import requests
 
 
-def test_get_info_categories():
+def test_get_info_categories(login):
     """"Проверка GET запроса метода /export-system-settings/marketplace/{id}/get-info-categories/"""
-    headers = {'Cookie': 'csrftoken=86cmn5yC9kN8mquBNSyozc4IJaKiDK1CcCuUHGC3oIych4CSmWAIV09J6cK7cuGz; sessionid=ngh9p3idu26dfg4rq762f6oh2mtaqrvn'}
-    result = requests.get(url='http://dev3.aliway.ru/export-system-settings/marketplace/1/get-info-categories/', headers=headers)
-
+    headers = {  'Cookie': 'csrftoken=O5NAWS0AyfuH81T17Ug8ynPP2jsZtlsywPhWJXHHmZIQyMoTLk3KQn77nOcFtinx; sessionid=6ci2kg843pfarkaamnn3y4tafskx8c9u'}
+    result = requests.get(url='http://dev3.aliway.ru/export-system-settings/marketplace/1/get-info-categories/', header=login)
+    print(login)
     assert result.status_code == 200
