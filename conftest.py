@@ -2,17 +2,15 @@ import requests
 
 """"Метод авторизации, записи токена в сессию"""
 url = 'http://dev3.aliway.ru/cabinet/login/'
-get = requests.get(url)
-cookies = get.cookies.values()
-a = requests.session()
-a.get(url)
-header = a.cookies
-se = header.get_dict()
-print(se)
-cred = {'username': 'admin@test.ru', 'password': 'admintestru'}
-csrfmiddlewaretoken = {'csrfmiddlewaretoken': cookies}
-payload = {**cred, **csrfmiddlewaretoken}
-headers = {'Cookie': cookies}
-post = requests.post(url, header=header, data=payload)
-print(payload)
-print(post.status_code)
+get_login = requests.get(url)
+cookies_full = get_login.cookies.values()
+cookies = "','".join(cookies_full)
+session = requests.session()
+head = session.cookies
+headerest = ['csrftoken=', cookies]
+delimiter = ''
+head = delimiter.join(headerest)
+header = {'Cookie': head}
+payload = {'username': 'admin@test.ru', 'password': 'admintestru', 'csrfmiddlewaretoken': cookies}
+auth = requests.post(url, headers=header, data=payload)
+print('Status code: ' + str(auth.status_code))

@@ -1,40 +1,38 @@
 import requests
 
-url = "http://dev3.aliway.ru/cabinet/login/"
-response = requests.get(url)
-print(response.status_code)
-ra = response.cookies.values()
-print(ra)
 
-payload={'username': 'admin@test.ru','password': 'admintestru','csrfmiddlewaretoken': 'L1DHf1ahj2w6IX3kwAGPULUKZSeDL7zSAFReEzTX9VWuafO8xG5x8oIdmJBhFs64'}
-headers = {'Cookie': 'csrftoken=L1DHf1ahj2w6IX3kwAGPULUKZSeDL7zSAFReEzTX9VWuafO8xG5x8oIdmJBhFs64'}
+url = "http://dev3.aliway.ru/cabinet/login/"
+payload={'username': 'admin@test.ru', 'password': 'admintestru', 'csrfmiddlewaretoken': 'e6xTnwSTXxLBa9sS5Y1AsUQMO72kwuQqnuw5ECcBsqD9Lf9Ez4mrkewvTCt89OKt'}
+headers = {'Cookie': 'csrftoken=e6xTnwSTXxLBa9sS5Y1AsUQMO72kwuQqnuw5ECcBsqD9Lf9Ez4mrkewvTCt89OKt'}
 response = requests.request("POST", url, headers=headers, data=payload)
 print(response.status_code)
 
-r = requests.get(url)
-ar = r.cookies.values()
-print(ar)
 
 
 
-
-
-
-
-
-
-
-
+import json
 import requests
+
 
 """"Метод авторизации, записи токена в сессию"""
 url = 'http://dev3.aliway.ru/cabinet/login/'
-session = requests.Session()
-cookies = session.get(url)
+get = requests.get(url)
+print('Status code: ' + str(get.status_code))
+cookies_full = get.cookies.values()
+cookies = "','".join(cookies_full)
+a = requests.session()
+a.get(url)
+header = a.cookies
 cred = {'username': 'admin@test.ru', 'password': 'admintestru'}
-csrftoken = cookies.cookies.get_dict()
-payload = {**cred, **csrftoken}
-post = requests.post(url, headers=headers, data=payload)
-print(csrftoken)
-print(payload)
-print(post.status_code)
+csrfmiddlewaretoken = {'csrfmiddlewaretoken': cookies}
+payload = {**cred, **csrfmiddlewaretoken}
+headers_tmpl = {'Cookie': cookies}
+headerest = ['csrftoken=', cookies]
+delimiter = ''
+header = delimiter.join(headerest)
+headers = {'content-type': 'application/json', 'Cookie': header}
+print('headers is ' + str(headers))
+print('payload is ' + str(payload))
+
+auth = requests.post(url, headers=dict(headers), json=json.dumps(payload), timeout=30, verify=False)
+print('Status code: ' + str(auth.status_code))
