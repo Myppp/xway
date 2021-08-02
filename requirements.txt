@@ -1,2 +1,4 @@
 requests==2.26.0
 pytest==6.2.4
+voluptuous==0.12.1
+pytest-voluptuous==1.2.0

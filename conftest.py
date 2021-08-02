@@ -20,3 +20,9 @@ def headers():
     dict_iter = [s.replace('python-requests/2.26.0', '') for s in session_data.values()]
     headers = {'Cookie': dict_iter[3 - 4]}
     return headers
+
+
+@pytest.fixture(scope='session')
+def url():
+    xway = 'http://dev3.aliway.ru/'
+    return xway
