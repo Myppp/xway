@@ -5,7 +5,7 @@ import requests
 @pytest.fixture(scope='session')
 def headers():
     """"Метод авторизации, получаем токен и sessionid"""
-    url = 'http://dev3.aliway.ru/cabinet/login/'
+    url = 'https://dev3.aliway.ru/cabinet/login/'
     get_login = requests.get(url)
     cookies_full = get_login.cookies.values()
     cookies = "','".join(cookies_full)
@@ -24,5 +24,5 @@ def headers():
 
 @pytest.fixture(scope='session')
 def url():
-    xway = 'http://dev3.aliway.ru/'
+    xway = 'https://dev3.aliway.ru/'
     return xway

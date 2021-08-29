@@ -1,8 +1,21 @@
 import requests
 
+""""Метод авторизации, получаем токен и sessionid"""
+url = 'https://dev3.aliway.ru/cabinet/login/'
+get_login = requests.get(url)
+cookies_full = get_login.cookies.values()
+cookies = "','".join(cookies_full)
+headerest = ['csrftoken=', cookies]
+delimiter = ''
+head = delimiter.join(headerest)
+header = {'Cookie': head}
+payload = {'username': 'admin@test.ru', 'password': 'admintestru', 'csrfmiddlewaretoken': cookies}
+session = requests.Session()
+post_login = session.post(url, headers=header, data=payload)
+session_data = post_login.request.headers
+dict_iter = [s.replace('python-requests/2.26.0', '') for s in session_data.values()]
+headers = {'Cookie': dict_iter[3 - 4]}
+all = [session, header]
+a = {'Cookie': all}
 
-result = requests.get(url='http://dev3.aliway.ru/export-system-settings/marketplace/1/get-info-categories/',
-                      headers={
-  'Cookie': 'csrftoken=qRtYtRWzIrPvUtWOJV9zx6X2p854GW4F7HJkdSSPuit5XWdP9wqIj1ZrR0pcGeuW; sessionid=6ci2kg843pfarkaamnn3y4tafskx8c9u'
-}).json()
-print(result)
+print(a)
